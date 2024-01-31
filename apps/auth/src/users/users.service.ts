@@ -23,5 +23,4 @@ export class UsersService {
       return userCreated;
     } catch (error) {}
   }
-  async findOne(id: number) {}
 }
