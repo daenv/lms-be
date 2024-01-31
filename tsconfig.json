@@ -23,6 +23,12 @@
       ],
       "@app/common/*": [
         "libs/common/src/*"
+      ],
+      "@app/bootcamp-entities": [
+        "libs/bootcamp-entities/src"
+      ],
+      "@app/bootcamp-entities/*": [
+        "libs/bootcamp-entities/src/*"
       ]
     }
   }
