@@ -1,18 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '@app/common';
+import { Account } from '@app/bootcamp-entities';
 import { EntityManager, Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private repositoryUser: Repository<User>,
+    @InjectRepository(Account) private repositoryUser: Repository<Account>,
     private readonly entityManager: EntityManager,
   ) {}
 
   async createUser(createUserDto: CreateUserDto) {
-    const user = new User({
+    const user = new Account({
       ...createUserDto,
     });
     try {
@@ -23,4 +23,5 @@ export class UsersService {
       return userCreated;
     } catch (error) {}
   }
+  async findOne(id: number) {}
 }
