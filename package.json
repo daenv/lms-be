@@ -77,7 +77,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1"
+      "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1",
+      "^@app/bootcamp-entities(|/.*)$": "<rootDir>/libs/bootcamp-entities/src/$1"
     }
   }
 }
