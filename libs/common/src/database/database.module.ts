@@ -4,5 +4,6 @@ import { configOrm } from '../configs/typeOrm.config';
 
 @Module({
   imports: [TypeOrmModule.forRoot(configOrm)],
+  providers: [],
 })
 export class DatabaseModule {}
