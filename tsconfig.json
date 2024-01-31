@@ -29,6 +29,12 @@
       ],
       "@app/bootcamp-entities/*": [
         "libs/bootcamp-entities/src/*"
+      ],
+      "@app/bootcamp-data": [
+        "libs/bootcamp-data/src"
+      ],
+      "@app/bootcamp-data/*": [
+        "libs/bootcamp-data/src/*"
       ]
     }
   }

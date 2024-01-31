@@ -36,6 +36,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/bootcamp-entities/tsconfig.lib.json"
       }
+    },
+    "bootcamp-data": {
+      "type": "library",
+      "root": "libs/bootcamp-data",
+      "entryFile": "index",
+      "sourceRoot": "libs/bootcamp-data/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/bootcamp-data/tsconfig.lib.json"
+      }
     }
   }
 }
