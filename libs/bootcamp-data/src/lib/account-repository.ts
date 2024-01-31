@@ -1,7 +1,7 @@
 import { Account, IRepository } from '@app/bootcamp-entities';
 import { AccountEntity } from './model/account.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { AccountsDataEntityMapper } from './account.data-entity.mapper';
 
 export class AccountRepository implements IRepository<string, Account> {
@@ -21,7 +21,7 @@ export class AccountRepository implements IRepository<string, Account> {
   }
   public async get(id: string): Promise<Account> {
     return await this._repository
-      .findOne(id)
+      .findOne({ where: { id } })
       .then((e) => new AccountsDataEntityMapper().mapFrom(e));
   }
   public async getByQuery(query: object): Promise<Account> {
@@ -29,10 +29,22 @@ export class AccountRepository implements IRepository<string, Account> {
       .findOne(query)
       .then((e) => (e ? new AccountsDataEntityMapper().mapFrom(e) : null));
   }
-  save(entity: Account): Promise<Account> {
-    throw new Error('Method not implemented.');
+  public async save(entity: Account): Promise<Account> {
+    return await this._repository.save(entity);
   }
-  delete(id: string): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  public async delete(id: string): Promise<boolean> {
+    return await this._repository
+      .delete(id)
+      .then((deleteResult) => deleteResult.affected > 0);
+  }
+  public async getByVerification(verification: string): Promise<Account> {
+    const entity = await this._repository.findOne({
+      where: {
+        verification,
+        verificationExpires: MoreThanOrEqual(new Date()),
+        verified: false,
+      },
+    });
+    return entity ? new AccountsDataEntityMapper().mapFrom(entity) : null;
   }
 }
