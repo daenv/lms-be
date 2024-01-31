@@ -11,16 +11,16 @@ export class UsersService {
     private readonly entityManager: EntityManager,
   ) {}
 
-  async createUser(createUserDto: CreateUserDto) {
-    const user = new Account({
-      ...createUserDto,
-    });
-    try {
-      const userCreated = await this.entityManager.save(user);
-      if (!userCreated) {
-        throw new BadRequestException('User not created');
-      }
-      return userCreated;
-    } catch (error) {}
-  }
+  // async createUser(createUserDto: CreateUserDto) {
+  //   const user = new Account({
+  //     ...createUserDto,
+  //   });
+  //   try {
+  //     const userCreated = await this.entityManager.save(user);
+  //     if (!userCreated) {
+  //       throw new BadRequestException('User not created');
+  //     }
+  //     return userCreated;
+  //   } catch (error) {}
+  // }
 }
