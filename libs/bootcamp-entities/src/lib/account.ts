@@ -35,14 +35,19 @@ export class Account extends AbstractEntity<Account> {
 
   @Column()
   public roles: string[];
+
   @Column()
   public verification: string;
+
   @Column()
   public verified: boolean;
+
   @Column()
   public verificationExpires: Date;
+
   @Column()
   public loginAttempts?: number;
+
   @Column()
   public blockExpires?: Date;
 }
