@@ -2,17 +2,35 @@ networks:
   lms-networks:
 
 services:
-  mysql_lms:
-    image: mysql
-    env_file:
-      - .env
+  postgresql-master:
+    image: docker.io/bitnami/postgresql:16
     ports:
-      - '3307:3306'
-  postgres:
-    image: postgres
+      - '5432'
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: khongbiet
-      POSTGRES_DB: lms
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=khongbiet
+      - POSTGRESQL_DATABASE=lms-course
+      - ALLOW_EMPTY_PASSWORD=yes
+  postgresql-slave:
+    image: docker.io/bitnami/postgresql:16
     ports:
-      - '5433:5432'
+      - '5432'
+    depends_on:
+      - postgresql-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_PASSWORD=my_password
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - ALLOW_EMPTY_PASSWORD=yes
+
+volumes:
+  postgresql_master_data:
+    driver: local
