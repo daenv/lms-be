@@ -31,11 +31,11 @@ class ConfigService {
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      host: this.getValue('MYSQL_HOST'),
-      port: parseInt(this.getValue('MYSQL_PORT')),
-      database: this.getValue('MYSQL_DATABASE'),
-      username: this.getValue('MYSQL_USERNAME'),
-      password: this.getValue('MYSQL_PASSWORD'),
+      host: this.getValue('POSTGRES_HOST'),
+      port: parseInt(this.getValue('POSTGRES_PORT')),
+      database: this.getValue('POSTGRES_DATABASE'),
+      username: this.getValue('POSTGRES_USERNAME'),
+      password: this.getValue('POSTGRES_PASSWORD'),
       migrations: ['lib/migrations/*.ts'],
       entities: [AccountEntity],
       migrationsTableName: 'migration',
@@ -43,11 +43,11 @@ class ConfigService {
   }
 }
 const configService = new ConfigService(process.env).ensureValues([
-  'MYSQL_HOST',
-  'MYSQL_PORT',
-  'MYSQL_DATABASE',
-  'MYSQL_USERNAME',
-  'MYSQL_PASSWORD',
+  'POSTGRES_HOST',
+  'POSTGRES_PORT',
+  'POSTGRES_DATABASE',
+  'POSTGRES_USERNAME',
+  'POSTGRES_PASSWORD',
 ]);
 
 export { configService };
