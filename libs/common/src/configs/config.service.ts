@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as path from 'path';
+import { AccountEntity } from '@app/bootcamp-data';
 config({ path: path.resolve(process.cwd(), 'apps/accounts/.env') });
 class ConfigService {
   constructor(private env: { [key: string]: string | undefined }) {}
@@ -36,9 +37,8 @@ class ConfigService {
       username: this.getValue('MYSQL_USERNAME'),
       password: this.getValue('MYSQL_PASSWORD'),
       migrations: ['lib/migrations/*.ts'],
-      entities: ['**/*.entity{.ts,.js}'],
+      entities: [AccountEntity],
       migrationsTableName: 'migration',
-      ssl: this.isProduction,
     };
   }
 }
