@@ -1,8 +1,18 @@
+networks:
+  lms-networks:
+
 services:
   mysql_lms:
     image: mysql
     env_file:
       - .env
     ports:
-      - "3307:3306"
-    
+      - '3307:3306'
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: khongbiet
+      POSTGRES_DB: lms
+    ports:
+      - '5433:5432'
