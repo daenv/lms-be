@@ -41,6 +41,12 @@
       ],
       "@app/bootcamp-businesslogic/*": [
         "libs/bootcamp-businesslogic/src/*"
+      ],
+      "@app/bootcapm-interfaceadapters": [
+        "libs/bootcapm-interfaceadapters/src"
+      ],
+      "@app/bootcapm-interfaceadapters/*": [
+        "libs/bootcapm-interfaceadapters/src/*"
       ]
     }
   }

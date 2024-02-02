@@ -63,6 +63,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/bootcamp-businesslogic/tsconfig.lib.json"
       }
+    },
+    "bootcapm-interfaceadapters": {
+      "type": "library",
+      "root": "libs/bootcapm-interfaceadapters",
+      "entryFile": "index",
+      "sourceRoot": "libs/bootcapm-interfaceadapters/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/bootcapm-interfaceadapters/tsconfig.lib.json"
+      }
     }
   }
 }
