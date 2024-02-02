@@ -11,7 +11,5 @@ export class AccountsController {
   public async register(
     @Res() res: Response,
     @Body() createAccountDto: CreateAccountDto,
-  ) {
-    const controller = new 
-  }
+  ) {}
 }
