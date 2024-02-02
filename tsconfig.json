@@ -35,6 +35,12 @@
       ],
       "@app/bootcamp-data/*": [
         "libs/bootcamp-data/src/*"
+      ],
+      "@app/bootcamp-businesslogic": [
+        "libs/bootcamp-businesslogic/src"
+      ],
+      "@app/bootcamp-businesslogic/*": [
+        "libs/bootcamp-businesslogic/src/*"
       ]
     }
   }
