@@ -1,50 +1,48 @@
-import { Account, IRepository } from '@app/bootcamp-entities';
-import { AccountEntity } from './model/account.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThanOrEqual, Repository } from 'typeorm';
+import { Account, IRepository, QueryOptions } from '@app/bootcamp-entities';
 import { AccountsDataEntityMapper } from './account.data-entity.mapper';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AccountEntity } from './model';
+import { FindOptions, Repository } from 'typeorm';
+
+const mapper = new AccountsDataEntityMapper();
 
 export class AccountRepository implements IRepository<string, Account> {
   constructor(
     @InjectRepository(AccountEntity)
-    private _repository: Repository<AccountEntity>,
+    private readonly _repository: Repository<AccountEntity>,
   ) {}
-  public async create(entity: Partial<Account>): Promise<Account> {
-    return await this._repository.create(entity);
+  getAll(options?: QueryOptions): Promise<Account[]> {
+    const { page, pageSize, sortBy, sortOrder, filter } = options || {};
+    return this._repository
+      .find({
+        order: { [sortBy]: sortOrder },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        where: filter,
+      })
+      .then((item) => item.map((e) => mapper.mapFrom(e)));
   }
-  public async getAll(): Promise<Account[]> {
-    return await this._repository
-      .find()
-      .then((items) =>
-        items.map((e) => new AccountsDataEntityMapper().mapFrom(e)),
+
+  get(id: string): Promise<Account> {
+    throw new Error('Method not implemented.');
+  }
+  getByQuery(query: object) {
+    throw new Error('Method not implemented.');
+  }
+  save(entity: Account): Promise<Account> {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+  public async create(entity: Partial<AccountEntity>): Promise<Account> {
+    try {
+      const result = await this._repository.save(
+        this._repository.create(entity),
       );
-  }
-  public async get(id: string): Promise<Account> {
-    return await this._repository
-      .findOne({ where: { id } })
-      .then((e) => new AccountsDataEntityMapper().mapFrom(e));
-  }
-  public async getByQuery(query: object): Promise<Account> {
-    return await this._repository
-      .findOne(query)
-      .then((e) => (e ? new AccountsDataEntityMapper().mapFrom(e) : null));
-  }
-  public async save(entity: Account): Promise<Account> {
-    return await this._repository.save(entity);
-  }
-  public async delete(id: string): Promise<boolean> {
-    return await this._repository
-      .delete(id)
-      .then((deleteResult) => deleteResult.affected > 0);
-  }
-  public async getByVerification(verification: string): Promise<Account> {
-    const entity = await this._repository.findOne({
-      where: {
-        verification,
-        verificationExpires: MoreThanOrEqual(new Date()),
-        verified: false,
-      },
-    });
-    return entity ? new AccountsDataEntityMapper().mapFrom(entity) : null;
+      return result;
+    } catch (err) {
+      throw new Error(`Error occurred while creating account: ${err.message}`);
+    }
   }
 }
