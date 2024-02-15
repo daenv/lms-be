@@ -2,7 +2,7 @@ import { Account, IRepository, QueryOptions } from '@app/bootcamp-entities';
 import { AccountsDataEntityMapper } from './account.data-entity.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountEntity } from './model';
-import { FindOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 const mapper = new AccountsDataEntityMapper();
 
@@ -24,16 +24,21 @@ export class AccountRepository implements IRepository<string, Account> {
   }
 
   public async get(id: string): Promise<Account> {
-    throw new Error('Method not implemented.');
+    return await this._repository
+      .findOne({ where: { id } })
+      .then((e) => mapper.mapFrom(e));
   }
   public async getByQuery(query: object) {
-    throw new Error('Method not implemented.');
+    return await this._repository
+      .find(query)
+      .then((e) => e.map((e) => mapper.mapFrom(e)));
   }
   public async save(entity: Account): Promise<Account> {
-    throw new Error('Method not implemented.');
+    return await this._repository.save(entity);
   }
   public async delete(id: string): Promise<boolean> {
-    throw new Error('Method not implemented.');
+    const result = await this._repository.delete({ id });
+    return result.affected == 1;
   }
   public async create(entity: Partial<AccountEntity>): Promise<Account> {
     try {
