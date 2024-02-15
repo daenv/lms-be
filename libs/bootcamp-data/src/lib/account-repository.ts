@@ -11,9 +11,9 @@ export class AccountRepository implements IRepository<string, Account> {
     @InjectRepository(AccountEntity)
     private readonly _repository: Repository<AccountEntity>,
   ) {}
-  getAll(options?: QueryOptions): Promise<Account[]> {
+  public async getAll(options?: QueryOptions): Promise<Account[]> {
     const { page, pageSize, sortBy, sortOrder, filter } = options || {};
-    return this._repository
+    return await this._repository
       .find({
         order: { [sortBy]: sortOrder },
         skip: (page - 1) * pageSize,
@@ -23,16 +23,16 @@ export class AccountRepository implements IRepository<string, Account> {
       .then((item) => item.map((e) => mapper.mapFrom(e)));
   }
 
-  get(id: string): Promise<Account> {
+  public async get(id: string): Promise<Account> {
     throw new Error('Method not implemented.');
   }
-  getByQuery(query: object) {
+  public async getByQuery(query: object) {
     throw new Error('Method not implemented.');
   }
-  save(entity: Account): Promise<Account> {
+  public async save(entity: Account): Promise<Account> {
     throw new Error('Method not implemented.');
   }
-  delete(id: string): Promise<boolean> {
+  public async delete(id: string): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
   public async create(entity: Partial<AccountEntity>): Promise<Account> {
