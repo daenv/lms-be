@@ -2,7 +2,7 @@ import { Account, IRepository, QueryOptions } from '@app/bootcamp-entities';
 import { AccountsDataEntityMapper } from './account.data-entity.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountEntity } from './model';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 
 const mapper = new AccountsDataEntityMapper();
 
@@ -49,5 +49,16 @@ export class AccountRepository implements IRepository<string, Account> {
     } catch (err) {
       throw new Error(`Error occurred while creating account: ${err.message}`);
     }
+  }
+  public async getByVerification(verification: string): Promise<Account> {
+    return await this._repository
+      .findOne({
+        where: {
+          verification,
+          verified: false,
+          verificationExpires: MoreThanOrEqual(new Date()),
+        },
+      })
+      .then((e) => (e ? mapper.mapFrom(e) : null));
   }
 }
