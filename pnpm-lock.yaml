@@ -77,6 +77,9 @@ dependencies:
   typeorm:
     specifier: ^0.3.20
     version: 0.3.20(mysql2@3.9.1)(pg@8.11.3)(ts-node@10.9.2)
+  validator:
+    specifier: ^13.11.0
+    version: 13.11.0
 
 devDependencies:
   '@nestjs/cli':
