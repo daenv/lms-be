@@ -11,4 +11,7 @@ export class AccountsHelper {
   public static isPassword(password: string) {
     return isLength(password, MIN_PASSWORD_LENGTH);
   }
+  public static isPasswordMatch(pw: string, pwRepeat: string) {
+    return pw === pwRepeat;
+  }
 }
