@@ -9,6 +9,7 @@ import { CreateAccountsRequestMessage } from '../accounts';
 import { EncryptUser } from './encrypt.user';
 import {} from 'class-validator';
 import { ValidationException } from './exceptions/validation.exception.interface';
+import { AccountNotFoundException } from './exceptions/account-notfound.exception.interface';
 
 export class AccountSerivce {
   HOURS_TO_VERIFY = Consts.HOURS_TO_VERIFY;
@@ -35,7 +36,10 @@ export class AccountSerivce {
     const encrypUser = new EncryptUser();
 
     await encrypUser.encryptUser(account);
-    //     await this.is
+    // check email uniqueness
+    this.isEmailUnique(account.email);
+    // set registration information
+    this.setRegistrationInfo(account);
 
     return await this._repository.save(account);
   }
@@ -45,5 +49,18 @@ export class AccountSerivce {
     if (user) {
       throw new ValidationException(Messages.EMAIL_MUST_BE_UNIQUE);
     }
+  }
+  public setRegistrationInfo(user): any {
+    user.verification = this._verificationGenerator.createVerificationCode();
+    user.verificationExpires = this._verificationGenerator.getExpirationDate(
+      this.HOURS_TO_VERIFY,
+    );
+  }
+  public async findByEmailOrThrowException(email: string): Promise<Account> {
+    const user = await this._repository.getByQuery({ email });
+    if (!user) {
+      throw new AccountNotFoundException('Account not found');
+    }
+    return user;
   }
 }
